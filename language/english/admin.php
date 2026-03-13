@@ -161,6 +161,7 @@ require_once __DIR__ . '/common.php';
 // ---------------- Admin Others ----------------
 \define('_AM_WGSLIDER_INVALID_PARAM', 'Invalid parameter');
 \define('_AM_WGSLIDER_INVALID_VALUE', 'Invalid value');
+\define('_AM_WGSLIDER_INVALID_DATE', 'Invalid date');
 \define('_AM_WGSLIDER_ABOUT_MAKE_DONATION', 'Submit');
 \define('_AM_WGSLIDER_SUPPORT_FORUM', 'Support Forum');
 \define('_AM_WGSLIDER_DONATION_AMOUNT', 'Donation Amount');

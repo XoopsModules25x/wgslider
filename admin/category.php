@@ -76,9 +76,6 @@ switch ($op) {
         } else {
             \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
-        if (!is_object($categoryObj)) {
-            \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_PARAM);
-        }
         $currentStatus = (int)$categoryObj->getVar('status');
         if (Constants::STATUS_OFFLINE === $currentStatus) {
             $categoryObj->setVar('status', Constants::STATUS_ONLINE );
@@ -136,11 +133,15 @@ switch ($op) {
         $categoryObj->setVar('imgheight', Request::getInt('imgheight'));
         $categoryObj->setVar('slideshow', Request::getInt('slideshow'));
         $categoryDatecreatedObj = \DateTime::createFromFormat(\_SHORTDATESTRING, Request::getString('datecreated'));
+        if ($categoryDatecreatedObj !== false) {
+            // invalid date
+            \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_DATE);
+        }
         $categoryObj->setVar('datecreated', $categoryDatecreatedObj->getTimestamp());
         $categoryObj->setVar('submitter', Request::getInt('submitter'));
         // Insert Data
         if ($categoryHandler->insert($categoryObj)) {
-                \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_FORM_OK);
+            \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_FORM_OK);
         }
         // Get Form
         $GLOBALS['xoopsTpl']->assign('error', $categoryObj->getHtmlErrors());
