@@ -69,7 +69,7 @@ class Confirm
      */
     public function getFormConfirm(): \XoopsThemeForm
     {
-        $moduleDirName      = \basename(__DIR__);
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         //in order to be accessable from user and admin area this should be place in language common.php
         if (!\defined('CO_' . $moduleDirNameUpper . '_DELETE_CONFIRM')) {

@@ -118,8 +118,10 @@ class Image extends \XoopsObject
             $form->addElement($imageTray, true);
         } else {
             $form->addElement(new \XoopsFormLabel(\_AM_WGSLIDER_IMAGE_REALNAME, $imgRealname));
-            $imgPreview = '<img src="' . WGSLIDER_UPLOAD_IMAGE_URL . '/' . $imgRealname. '"';
-            $imgPreview .= ' title="' . $imgTooltip . '"';
+            $safeRealname = \rawurlencode((string)$imgRealname);
+            $safeTooltip  = \htmlspecialchars((string)$imgTooltip, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
+            $imgPreview = '<img src="' . WGSLIDER_UPLOAD_IMAGE_URL . '/' . $safeRealname . '"';
+            $imgPreview .= ' title="' . $safeTooltip . '"';
             $imgPreview .= '>';
             $form->addElement(new \XoopsFormLabel('', $imgPreview));
         }

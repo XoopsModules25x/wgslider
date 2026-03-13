@@ -20,19 +20,24 @@
  * @param $val
  * @return float
  */
-function wgsliderReturnBytes($val):float
+
+function wgsliderReturnBytes($val): float
 {
-    switch (\mb_substr($val, -1)) {
-        case 'K':
-        case 'k':
-            return (int)$val * 1024;
-        case 'M':
-        case 'm':
-            return (int)$val * 1048576;
-        case 'G':
-        case 'g':
-            return (int)$val * 1073741824;
-        default:
-            return $val;
+    if (\is_int($val) || \is_float($val)) {
+        return (float)$val;
     }
-}
+    if (!\is_string($val)) {
+        throw new \InvalidArgumentException('Expected numeric string or number.');
+    }
+
+    $val = \trim($val);
+    $unit = \strtolower(\substr($val, -1));
+    $number = (float)$val;
+
+    return match ($unit) {
+        'k' => $number * 1024,
+        'm' => $number * 1048576,
+        'g' => $number * 1073741824,
+        default => $number,
+    };
+ }

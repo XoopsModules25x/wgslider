@@ -219,11 +219,12 @@ class Slideshow extends \XoopsObject
     {
         $html = "<ul>";
         foreach ($array as $key => $value) {
-            $html .= "<li><strong>$key:</strong> ";
+            $safeKey = \htmlspecialchars((string)$key, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
+            $html .= "<li><strong>{$safeKey}:</strong> ";
             if (is_array($value)) {
                 $html .= $this->renderJsonArray($value);
             } else {
-                $html .= $value;
+                $html .= \htmlspecialchars((string)$value, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
             }
             $html .= "</li>";
         }

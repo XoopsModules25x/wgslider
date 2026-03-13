@@ -44,12 +44,13 @@ class ModuleFeedback extends \XoopsObject
     /**
      * @static function &getInstance
      */
-    public static function getInstance(): void
+    public static function getInstance(): self
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+        return $instance;
     }
 
     /**
