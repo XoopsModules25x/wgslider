@@ -103,8 +103,23 @@ switch ($op) {
     case 'saveCrop':
         $uid = $xoopsUser instanceof \XoopsUser ? $xoopsUser->id() : 0;
         // save before created cropped image
-        \unlink($imgFinal);
+        $imgRestore = $imgFinal . '.tmp';
+        $ret = \rename($imgFinal, $imgRestore);
+        if (!$ret) {
+            \redirect_header('image.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, _AM_WGSLIDER_ERROR_MOVE_FILE);
+        }
         $ret = \rename($imgTemp, $imgFinal);
+        if (!$ret) {
+            //try to restore previous file
+            $ret = \rename($imgRestore, $imgFinal);
+            if ($ret) {
+                \redirect_header('image.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, _AM_WGSLIDER_ERROR_MOVE_FILE_RESTORED);
+            } else {
+                \redirect_header('image.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, _AM_WGSLIDER_ERROR_MOVE_FILE);
+            }
+        }
+        // delete copy for restore
+        \unlink($imgRestore);
         // Set Vars
         $imageObj->setVar('submitter', $uid);
         // Insert Data

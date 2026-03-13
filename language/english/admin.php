@@ -157,11 +157,14 @@ require_once __DIR__ . '/common.php';
 \define('_AM_WGSLIDER_IMAGE_EDITOR_CROP_ASPECTRATIO_FREE', 'Free');
 \define('_AM_WGSLIDER_IMAGE_EDITOR_CURRENT2', 'Source of current image');
 \define('_AM_WGSLIDER_IMAGE_EDITOR_RESXY', 'Resolution');
-\define('_AM_WGSLIDER_FORM_ERROR_INVALID_ID', 'Invalid ID');
-// ---------------- Admin Others ----------------
+// ---------------- Checks and errors ----------------
 \define('_AM_WGSLIDER_INVALID_PARAM', 'Invalid parameter');
 \define('_AM_WGSLIDER_INVALID_VALUE', 'Invalid value');
 \define('_AM_WGSLIDER_INVALID_DATE', 'Invalid date');
+\define('_AM_WGSLIDER_FORM_ERROR_INVALID_ID', 'Invalid ID');
+\define('_AM_WGSLIDER_ERROR_MOVE_FILE', 'Error: moving file failed!');
+\define('_AM_WGSLIDER_ERROR_MOVE_FILE_RESTORED', 'Error: moving file failed, previous file has been restored!');
+// ---------------- Admin Others ----------------
 \define('_AM_WGSLIDER_ABOUT_MAKE_DONATION', 'Submit');
 \define('_AM_WGSLIDER_SUPPORT_FORUM', 'Support Forum');
 \define('_AM_WGSLIDER_DONATION_AMOUNT', 'Donation Amount');

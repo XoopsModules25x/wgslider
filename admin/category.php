@@ -133,7 +133,7 @@ switch ($op) {
         $categoryObj->setVar('imgheight', Request::getInt('imgheight'));
         $categoryObj->setVar('slideshow', Request::getInt('slideshow'));
         $categoryDatecreatedObj = \DateTime::createFromFormat(\_SHORTDATESTRING, Request::getString('datecreated'));
-        if ($categoryDatecreatedObj !== false) {
+        if ($categoryDatecreatedObj === false) {
             // invalid date
             \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_DATE);
         }

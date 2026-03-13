@@ -196,7 +196,7 @@ switch ($op) {
         }
         $imageObj->setVar('weight', $imageWeight);
         $imageDatecreatedObj = \DateTime::createFromFormat(\_SHORTDATESTRING, Request::getString('datecreated'));
-        if ($imageDatecreatedObj !== false) {
+        if ($imageDatecreatedObj === false) {
             // invalid date
             \redirect_header('image.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_DATE);
         }
