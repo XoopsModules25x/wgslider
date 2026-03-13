@@ -76,6 +76,9 @@ switch ($op) {
         } else {
             \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        if (!is_object($categoryObj)) {
+            \redirect_header('category.php?op=list&amp;start=' . $start . '&amp;limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_PARAM);
+        }
         $currentStatus = (int)$categoryObj->getVar('status');
         if (Constants::STATUS_OFFLINE === $currentStatus) {
             $categoryObj->setVar('status', Constants::STATUS_ONLINE );
