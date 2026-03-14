@@ -198,6 +198,9 @@ class Image extends \XoopsObject
             case Constants::STATUS_ONLINE:
                 $status_text = \_AM_WGSLIDER_STATUS_ONLINE_CLICK;
                 break;
+            case Constants::STATUS_INVALID_SIZE:
+                $status_text = \_AM_WGSLIDER_STATUS_INVALID_SIZE;
+                break;
         }
         $ret['status_text']       = $status_text;
         $ret['datecreated_text']  = \formatTimestamp($this->getVar('datecreated'), 's');
