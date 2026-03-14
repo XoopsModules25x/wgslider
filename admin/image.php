@@ -173,7 +173,7 @@ switch ($op) {
                     $uploaderErrors .= '<br>' . $uploader->getErrors();
                 }
             } else {
-                if ($filename > '') {
+                if ($filename !== '') {
                     $uploaderErrors .= '<br>' . $uploader->getErrors();
                 }
                 $imageObj->setVar('realname', Request::getString('realname'));
