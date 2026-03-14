@@ -47,7 +47,7 @@
                     <a href="image.php?op=edit&amp;id=<{$image.id|default:false}>&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>" title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._EDIT}> image" ></a>
                     <a href="image.php?op=clone&amp;id_source=<{$image.id|default:false}>" title="<{$smarty.const._CLONE}>"><img src="<{xoModuleIcons16 'editcopy.png'}>" alt="<{$smarty.const._CLONE}> image" ></a>
                     <a href="image.php?op=delete&amp;id=<{$image.id|default:false}>" title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 'delete.png'}>" alt="<{$smarty.const._DELETE}> image" ></a>
-                    <a href="image_editor.php?op=edit&amp;id=<{$image.id|default:false}>" title="<{$smarty.const._DELETE}>"><img src="<{$modPathIcon16}>image_editor.png" alt="<{$smarty.const._DELETE}> image" ></a>
+                    <a href="image_editor.php?op=edit&amp;id=<{$image.id|default:false}>" title="<{$smarty.const._AM_WGSLIDER_IMAGE_EDITOR}>"><img src="<{$modPathIcon16}>image_editor.png" alt="<{$smarty.const._AM_WGSLIDER_IMAGE_EDITOR}> image" ></a>
                 </td>
             </tr>
             <{/foreach}>

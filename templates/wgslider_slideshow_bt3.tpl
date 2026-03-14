@@ -9,7 +9,7 @@
     }
 </style>
 
-<div id="myCarousel<{$wgslider_identifier}>" class="carousel slide slideshow" data-ride="carousel"">
+<div id="myCarousel<{$wgslider_identifier}>" class="carousel slide slideshow" data-ride="carousel">
     <!-- Indicators -->
     <{if $wgslider_param_bt3_show_indicators == 'true'}>
     <ol class="carousel-indicators">

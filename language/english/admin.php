@@ -157,6 +157,7 @@ require_once __DIR__ . '/common.php';
 \define('_AM_WGSLIDER_IMAGE_EDITOR_CROP_ASPECTRATIO_FREE', 'Free');
 \define('_AM_WGSLIDER_IMAGE_EDITOR_CURRENT2', 'Source of current image');
 \define('_AM_WGSLIDER_IMAGE_EDITOR_RESXY', 'Resolution');
+\define('_AM_WGSLIDER_IMAGE_EDITOR_CROP_ERROR', 'Crop operation failed. Please try again.');
 // ---------------- Checks and errors ----------------
 \define('_AM_WGSLIDER_INVALID_PARAM', 'Invalid parameter');
 \define('_AM_WGSLIDER_INVALID_VALUE', 'Invalid value');

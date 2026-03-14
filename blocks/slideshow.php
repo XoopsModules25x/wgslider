@@ -40,7 +40,10 @@ function b_wgslider_slideshow_show($options): array
     $slideshowHandler = $helper->getHandler('Slideshow');
 
     $slsIdentifier = \md5((string)\mt_rand());
-    $catId = (int)$options[1];
+    $catId = (int)$options[1] ?? 0;
+    if (empty($catId)) {
+        return [];
+    }
 
     $slsElements = $slideshowHandler->getSlideshowElements($catId, Constants::DISPLAY_BLOCK);
     if (empty($slsElements)) {

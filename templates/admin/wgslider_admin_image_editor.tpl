@@ -168,6 +168,7 @@
                                 error: function (data) {
                                     console.log('create crop failed');
                                     console.log(data);
+                                    alert('<{$smarty.const._AM_WGSLIDER_IMAGE_EDITOR_CROP_ERROR}>');
                                 }
                             });
 

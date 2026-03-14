@@ -51,7 +51,7 @@ window.onload = function () {
   var originalImageURL = image.src;
   var uploadedImageType = 'image/jpeg';
   var uploadedImageName = 'cropped.jpg';
-  var uploadedImageURL = 'http://localhost/';
+  var uploadedImageURL = '';
 
   // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
