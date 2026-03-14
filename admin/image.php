@@ -94,8 +94,6 @@ switch ($op) {
             $imageObj->setVar('status', Constants::STATUS_ONLINE );
         } elseif (Constants::STATUS_ONLINE === $currentStatus) {
             $imageObj->setVar('status', Constants::STATUS_OFFLINE );
-        } else {
-            $imageObj->setVar('status', Request::getInt('status_old') );
         }
         // Insert Data
         if ($imageHandler->insert($imageObj)) {
