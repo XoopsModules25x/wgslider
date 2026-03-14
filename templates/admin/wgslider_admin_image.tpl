@@ -27,7 +27,7 @@
                 <td class=''><{$image.id|default:false}></td>
                 <td class=''><{$image.name|default:''}></td>
                 <td class=''><{$image.tooltip|default:''}></td>
-                <td class=''><img class='gallery-img' src="<{$wgslider_upload_url|default:false}>/images/<{$image.realname|default:false}><{$currentTime|default:''}>" alt="image" style="max-width:100px" ></td>
+                <td class=''><img class='wgs-image-list' src="<{$wgslider_upload_url|default:false}>/images/<{$image.realname|default:false}><{$currentTime|default:''}>" alt="image" style="max-width:100px" ></td>
                 <td class='center'><{$image.width_text|default:''}></td>
                 <td class='center'><{$image.height_text|default:''}></td>
                 <td class=''><{$image.category_name|default:''}></td>
@@ -69,9 +69,18 @@
 
 
 <!-- Modal -->
-<div id="myModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImg">
+<div id="getWgsImageModal" class="wgs-modern-image-modal" style="display: none">
+    <div class="wgs-modal-dialog">
+        <div class="wgs-modal-content">
+            <div class="wgs-modal-body">
+                <button type="button" class="wgs-modal-close">&times;</button>
+                <div class="wgs-image-wrapper"></div>
+                <div class="wgs-image-actions">
+                    <a id="download" href="#" download="cropped.jpg" class="hidden">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- end of modal -->
 
@@ -80,29 +89,27 @@
 <{include file='db:wgslider_admin_footer.tpl' }>
 
 <script>
-    const modal = document.getElementById("myModal");
-    const modalImg = document.getElementById("modalImg");
-    const closeBtn = document.querySelector(".close");
-
     // select all images
-    const images = document.querySelectorAll(".gallery-img");
+    const images = document.querySelectorAll(".wgs-image-list");
 
     images.forEach(img => {
         img.onclick = function() {
-            modal.style.display = "block";
-            modalImg.src = this.src;
+            const modal = document.getElementById('getWgsImageModal');
+            const modalBody = modal.querySelector('.wgs-image-wrapper');
+            modalBody.innerHTML = '';
+
+            const clonedImage = img.cloneNode(true);
+            clonedImage.style.maxWidth = '100%';
+            modalBody.appendChild(clonedImage);
+
+            modal.style.display = "flex";
         }
     });
 
-    // close
-    closeBtn.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // close after click somewhere
-    modal.onclick = function(e) {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    }
+    // Close Modal
+    const modal = document.getElementById('getWgsImageModal');
+    const closeBtn = modal.querySelector('.wgs-modal-close');
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = e => { if(e.target===modal) modal.style.display='none'; };
+    document.addEventListener('keydown', e => { if(e.key==='Escape') modal.style.display='none'; });
 </script>
