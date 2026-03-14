@@ -146,6 +146,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             $slideshowObj->setVar('name', $slider['name']);
             $slideshowObj->setVar('descr', $slider['descr']);
             $slideshowObj->setVar('tpl', $slider['tpl']);
+            $slideshowObj->setVar('status', $slider['status']);
             $slideshowObj->setVar('params', $slider['params']);
             $slideshowHandler->insert($slideshowObj);
         }
@@ -215,6 +216,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'name'   => 'Default',
             'descr'  => _AM_WGSLIDER_SLIDESHOW_DESCR_DEFAULT,
             'tpl'    => 'wgslider_slideshow_default.tpl',
+            'status' =>  Constants::STATUS_ONLINE,
             'params' => json_encode([
                 'timeout'   => 4000
             ])
@@ -233,6 +235,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'name'   => 'Bootstrap3 Carousel',
             'descr'  => _AM_WGSLIDER_SLIDESHOW_DESCR_BT3,
             'tpl'    => 'wgslider_slideshow_bt3.tpl',
+            'status' => Constants::STATUS_ONLINE,
             'params' => json_encode([
                 'bt3_data_interval'   => 4000,
                 'bt3_data_pause'      => 'hover',
@@ -257,6 +260,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'name'   => 'Bootstrap5 Carousel',
             'descr'  => _AM_WGSLIDER_SLIDESHOW_DESCR_BT5,
             'tpl'    => 'wgslider_slideshow_bt5.tpl',
+            'status' => Constants::STATUS_ONLINE,
             'params' => json_encode([
                 'bt5_data_interval'   => 4000,
                 'bt5_data_pause'      => 'hover',

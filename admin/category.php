@@ -51,8 +51,15 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('wgslider_upload_url', \WGSLIDER_UPLOAD_URL);
         // Table view category
         if ($categoryCount > 0) {
+            $slideshowHandler = $helper->getHandler('Slideshow');
             foreach (\array_keys($categoryAll) as $i) {
                 $category = $categoryAll[$i]->getValuesCategory();
+                // check whether slideshow is still online
+                $crSlideshow = new \CriteriaCompo();
+                $crSlideshow->add(new \Criteria('id', $category['slideshow']));
+                $crSlideshow->add(new \Criteria('status', Constants::STATUS_ONLINE));
+                $slideshowCount = $slideshowHandler->getCount($crSlideshow);
+                $category['slideshow_offline'] = (0 === $slideshowCount);
                 $GLOBALS['xoopsTpl']->append('category_list', $category);
                 unset($category);
             }
