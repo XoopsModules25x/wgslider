@@ -138,9 +138,15 @@
                                     return res.text();
                                 })
                                 .then(data => console.log('create crop finished', data))
-                                .catch(err => { console.error(err); alert('Crop failed'); });
-
-                            document.getElementById("btnCropApply").classList.remove("disabled");
+                                .then(data => {
+                                    console.log('create crop finished', data);
+                                    document.getElementById("btnCropApply").classList.remove("disabled");
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    alert('Crop failed');
+                                    document.getElementById("btnCropApply").classList.add("disabled");
+                                });
 
                         } else {
                             const modal = document.getElementById('getWgsImageModal');
