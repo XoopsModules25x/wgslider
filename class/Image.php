@@ -147,10 +147,10 @@ class Image extends \XoopsObject
         $imgStatusSelect = new \XoopsFormRadio(\_AM_WGSLIDER_IMAGE_STATUS, 'status', $imgStatus);
         $imgStatusSelect->addOption(Constants::STATUS_OFFLINE, \_AM_WGSLIDER_STATUS_OFFLINE);
         $imgStatusSelect->addOption(Constants::STATUS_ONLINE, \_AM_WGSLIDER_STATUS_ONLINE);
-        $imgStatusSelect->addOption(Constants::STATUS_INVALID_SIZE, \_AM_WGSLIDER_STATUS_INVALID_SIZE);
         $form->addElement($imgStatusSelect);
         // Form Text imgWeight
-        $imgWeight = $this->isNew() ? 0 : $this->getVar('weight');
+        $imgWeight = $this->isNew() ? '0' : $this->getVar('weight');
+        $form->addElement(new \XoopsFormHidden('weight',  $imgWeight));
         $form->addElement(new \XoopsFormLabel(\_AM_WGSLIDER_IMAGE_WEIGHT, $imgWeight));
         // Form Text Date Select imgDatecreated
         $imgDatecreated = $this->isNew() ? \time() : $this->getVar('datecreated');
@@ -182,9 +182,11 @@ class Image extends \XoopsObject
         $ret['height_text'] = $this->getVar('height') . ' px';
         $categoryHandler = $helper->getHandler('Category');
         $categoryObj = $categoryHandler->get($this->getVar('category'));
+        $categoryName = 'Invalid Category';
         if (is_object($categoryObj)) {
-            $ret['category_name'] = $categoryObj->getVar('name');
+            $categoryName = $categoryObj->getVar('name');
         }
+        $ret['category_name'] = $categoryName;
         $status        = $this->getVar('status');
         $ret['status'] = $status;
         switch ($status) {

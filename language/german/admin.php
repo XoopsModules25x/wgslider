@@ -60,7 +60,7 @@ require_once __DIR__ . '/common.php';
 // Elements of Category
 \define('_AM_WGSLIDER_CATEGORY_ID', 'ID');
 \define('_AM_WGSLIDER_CATEGORY_NAME', 'Name');
-\define('_AM_WGSLIDER_CATEGORY_DISPLAY', 'Anzeige');
+\define('_AM_WGSLIDER_CATEGORY_DISPLAY', 'Art der Anzeige');
 \define('_AM_WGSLIDER_CATEGORY_KEY', 'Name der Smarty-Variable');
 \define('_AM_WGSLIDER_CATEGORY_KEY_DESCR', "Name ist nur erforderlich, wenn '" . _AM_WGSLIDER_DISPLAY_KEY . "' ausgewählt wurde.<br>Die Smarty-Variable muss in Ihrem Template eingefügt werden");
 \define('_AM_WGSLIDER_CATEGORY_STATUS', 'Status');
@@ -73,7 +73,9 @@ require_once __DIR__ . '/common.php';
 \define('_AM_WGSLIDER_CATEGORY_SLIDESHOW', 'Diashow');
 \define('_AM_WGSLIDER_CATEGORY_DATECREATED', 'Erstellt am');
 \define('_AM_WGSLIDER_CATEGORY_SUBMITTER', 'Eingereicht von');
-
+\define('_AM_WGSLIDER_CATEGORY_SURE_DELETE', "Möchten Sie die Kategorie wirklich löschen: <b><span style='color : Red;'>%s </span></b><br>Es werden auch alle Bilder dieser Kategorie gelöscht!");
+\define('_AM_WGSLIDER_CATEGORY_DELETE_OK', 'Kategorie und alle Bilder erfolgreich gelöscht');
+\define('_AM_WGSLIDER_CATEGORY_DELETE_FAILED', 'Kategorie gelöscht, aber beim Löschen der Bilder ist ein Fehler aufgetreten!');
 // Image add/edit
 \define('_AM_WGSLIDER_IMAGE_ADD', 'Bild hinzufügen');
 \define('_AM_WGSLIDER_IMAGE_EDIT', 'Bild bearbeiten');
@@ -81,7 +83,7 @@ require_once __DIR__ . '/common.php';
 \define('_AM_WGSLIDER_IMAGE_ID', 'ID');
 \define('_AM_WGSLIDER_IMAGE_NAME', 'Name');
 \define('_AM_WGSLIDER_IMAGE_TOOLTIP', 'Tooltip');
-\define('_AM_WGSLIDER_IMAGE_REALNAME', 'Originaldateiname');
+\define('_AM_WGSLIDER_IMAGE_REALNAME', 'Echter Dateiname');
 \define('_AM_WGSLIDER_IMAGE_REALNAME_UPLOADS', 'Pfad in %s :');
 \define('_AM_WGSLIDER_IMAGE_PREVIEW', 'Vorschau');
 \define('_AM_WGSLIDER_IMAGE_WIDTH', 'Breite');
