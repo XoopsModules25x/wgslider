@@ -92,12 +92,12 @@ class Resizer
             }
 
             // Create a new temporary image.
-            $tmpimg = \imagecreatetruecolor($new_width, $new_height);
+            $tmpimg = \imagecreatetruecolor((int)$new_width, (int)$new_height);
             \imagealphablending($tmpimg, false);
             \imagesavealpha($tmpimg, true);
 
             // Copy and resize old image into new image.
-            \imagecopyresampled($tmpimg, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            \imagecopyresampled($tmpimg, $img, 0, 0, 0, 0, (int)$new_width, (int)$new_height, (int)$width, (int)$height);
 
             \unlink($this->endFile);
             //compressing the file

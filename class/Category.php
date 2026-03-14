@@ -106,7 +106,7 @@ class Category extends \XoopsObject
         $catDisplaySelect->addOption('0', ' ');
         $catDisplaySelect->addOption(Constants::DISPLAY_BLOCK, \_AM_WGSLIDER_DISPLAY_BLOCK);
         $catDisplaySelect->addOption(Constants::DISPLAY_KEY, \_AM_WGSLIDER_DISPLAY_KEY);
-        $form->addElement($catDisplaySelect);
+        $form->addElement($catDisplaySelect, true);
         // Form Text catKey
         $catKey = $this->isNew() ? 'wgslider_' . \md5((string)\mt_rand()) : $this->getVar('key');
         $selectCatKey = new \XoopsFormText(\_AM_WGSLIDER_CATEGORY_KEY, 'key', 50, 255, $catKey);

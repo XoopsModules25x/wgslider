@@ -131,6 +131,9 @@ class Image extends \XoopsObject
         // Form Text imgHeight
         $imgHeight = $this->isNew() ? '0' : $this->getVar('height');
         $form->addElement(new \XoopsFormLabel(\_AM_WGSLIDER_IMAGE_HEIGHT,  $imgHeight));
+        // Form Text imgWeight
+        $imgWeight = $this->isNew() ? '0' : $this->getVar('weight');
+        $form->addElement(new \XoopsFormHidden('weight',  $imgWeight));
         // Form Table category
         $categoryHandler = $helper->getHandler('Category');
         $imgCategorySelect = new \XoopsFormSelect(\_AM_WGSLIDER_IMAGE_CATEGORY, 'category', $this->getVar('category'));
@@ -147,7 +150,6 @@ class Image extends \XoopsObject
         $imgStatusSelect = new \XoopsFormRadio(\_AM_WGSLIDER_IMAGE_STATUS, 'status', $imgStatus);
         $imgStatusSelect->addOption(Constants::STATUS_OFFLINE, \_AM_WGSLIDER_STATUS_OFFLINE);
         $imgStatusSelect->addOption(Constants::STATUS_ONLINE, \_AM_WGSLIDER_STATUS_ONLINE);
-        $imgStatusSelect->addOption(Constants::STATUS_INVALID_SIZE, \_AM_WGSLIDER_STATUS_INVALID_SIZE);
         $form->addElement($imgStatusSelect);
         // Form Text imgWeight
         $imgWeight = $this->isNew() ? 0 : $this->getVar('weight');
