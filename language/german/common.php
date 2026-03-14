@@ -145,8 +145,16 @@ $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \define('CO_' . $moduleDirNameUpper . '_' . 'PERMNOTSET', 'Berechtigung konnte nicht gesetzt werden');
 
 //FileChecker
+//\define('CO_' . $moduleDirNameUpper . '_' . 'AVAILABLE', "<span style='color: green;'>Available</span>");
+//\define('CO_' . $moduleDirNameUpper . '_' . 'NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
+//\define('CO_' . $moduleDirNameUpper . '_' . 'NOTWRITABLE', "<span style='color: red;'>Should have permission ( %d ), but it has ( %d )</span>");
+//\define('CO_' . $moduleDirNameUpper . '_' . 'COPYTHEFILE', 'Copy it');
+//\define('CO_' . $moduleDirNameUpper . '_' . 'CREATETHEFILE', 'Create it');
+//\define('CO_' . $moduleDirNameUpper . '_' . 'SETMPERM', 'Set the permission');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FILECOPIED', 'Datei wurde kopiert');
 \define('CO_' . $moduleDirNameUpper . '_' . 'FILENOTCOPIED', 'Datei konnte nicht kopiert werden');
+//\define('CO_' . $moduleDirNameUpper . '_' . 'PERMSET', 'The permission has been set');
+//\define('CO_' . $moduleDirNameUpper . '_' . 'PERMNOTSET', 'The permission cannot be set');
 
 //image config
 \define('CO_' . $moduleDirNameUpper . '_' . 'IMAGE_WIDTH', 'Anzeigebreite des Bildes');

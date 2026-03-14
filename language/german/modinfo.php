@@ -54,6 +54,6 @@ require_once __DIR__ . '/common.php';
 \define('_MI_WGSLIDER_MAINTAINEDBY_DESC', 'URL der Support-Seite oder Community angeben');
 \define('_MI_WGSLIDER_BOOKMARKS', 'Social Bookmarks');
 \define('_MI_WGSLIDER_BOOKMARKS_DESC', 'Social-Bookmarks auf der Einzelseite anzeigen');
-\define('_MI_WGSLIDER_SHOW_TAB_CLONE', 'Tab „Klonen“ auf der Admin-Seite anzeigen');
-\define('_MI_WGSLIDER_SHOW_TAB_FEEDBACK', 'Tab „Feedback“ auf der Admin-Seite anzeigen');
+\define('_MI_WGSLIDER_SHOW_TAB_CLONE', 'Tab "Klonen" auf der Admin-Seite anzeigen');
+\define('_MI_WGSLIDER_SHOW_TAB_FEEDBACK', 'Tab "Feedback" auf der Admin-Seite anzeigen');
 // ---------------- End ----------------
