@@ -9,8 +9,8 @@
 **wgSlider** module for [XOOPS CMS](https://xoops.org) is a complete image slideshow system with category and image management, multiple slideshow templates (Default, Bootstrap 3, Bootstrap 5), built-in image editor with cropping tools, block support and implementation with smarty variables, and module cloning functionality.
 
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](LICENSE)
-[![Latest Pre-Release](https://img.shields.io/github/tag/ggoffy/wggallery.svg?style=flat)](https://github.com/ggoffy/wggallery/tags/)
-[![Latest Version](https://img.shields.io/github/release/ggoffy/wggallery.svg?style=flat)](https://github.com/ggoffy/wggallery/releases/)
+[![Latest Pre-Release](https://img.shields.io/github/tag/XoopsModules25x/wgslider.svg?style=flat)](https://github.com/XoopsModules25x/wgslider/tags/)
+[![Latest Version](https://img.shields.io/github/release/XoopsModules25x/wgslider.svg?style=flat)](https://github.com/XoopsModules25x/wgslider/releases/)
 
 Most of the templates on user side are fully responsive. Depending on the template you can select various options like slideshow type, speed and more.
 
