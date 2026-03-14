@@ -92,7 +92,7 @@ switch ($op) {
         $currentStatus = (int)$imageObj->getVar('status');
         if (Constants::STATUS_OFFLINE === $currentStatus) {
             $imageObj->setVar('status', Constants::STATUS_ONLINE );
-        } else {
+        } elseif (Constants::STATUS_ONLINE === $currentStatus) {
             $imageObj->setVar('status', Constants::STATUS_OFFLINE );
         }
         // Insert Data

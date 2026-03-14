@@ -113,8 +113,8 @@ class Category extends \XoopsObject
         $selectCatKey->setDescription(\_AM_WGSLIDER_CATEGORY_KEY_DESCR);
         $form->addElement($selectCatKey);
         // Form Select Status catStatus
-        $catStatus = $this->isNew() ? '1' : $this->getVar('status');
-        $catStatusSelect = new \XoopsFormRadio(\_AM_WGSLIDER_CATEGORY_STATUS, 'status', $catStatus);
+        $catStatus = $this->isNew() ? Constants::STATUS_OFFLINE : $this->getVar('status');
+        $catStatusSelect = new \XoopsFormRadio(\_AM_WGSLIDER_STATUS, 'status', $catStatus);
         $catStatusSelect->addOption(Constants::STATUS_OFFLINE, \_AM_WGSLIDER_STATUS_OFFLINE);
         $catStatusSelect->addOption(Constants::STATUS_ONLINE, \_AM_WGSLIDER_STATUS_ONLINE);
         $form->addElement($catStatusSelect, true);
@@ -141,20 +141,37 @@ class Category extends \XoopsObject
         $form->addElement(new \XoopsFormHidden('imgheight', 0));
         // Form Select catSlideshow
         $slideshowHandler = $helper->getHandler('Slideshow');
-        $slideshowArr = $slideshowHandler->getAll();
-        $catSlideshow = $this->isNew() ? 0 : $this->getVar('slideshow');
-        $catSlideshowSelect = new \XoopsFormSelect(\_AM_WGSLIDER_CATEGORY_SLIDESHOW, 'slideshow', $catSlideshow, 5);
-        foreach ($slideshowArr as $slideshow) {
-            $catSlideshowSelect->addOption($slideshow->getVar('id'), $slideshow->getVar('name'));
+        $crSlideshow = new \CriteriaCompo();
+        $crSlideshow->add(new \Criteria('status', Constants::STATUS_ONLINE));
+        $slideshowCount = $slideshowHandler->getCount($crSlideshow);
+        if (0 === $slideshowCount) {
+            \redirect_header('category.php', 3, \_AM_WGSLIDER_CATEGORY_NO_SLIDESHOW);
         }
-        $form->addElement($catSlideshowSelect, true);
-        // Form Text Date Select catDatecreated
+        $slideshowArr = $slideshowHandler->getAll($crSlideshow);
+        $catSlideshow = $this->isNew() ? 0 : $this->getVar('slideshow');
+        if ($slideshowCount > 1) {
+            $catSlideshowSelect = new \XoopsFormSelect(\_AM_WGSLIDER_CATEGORY_SLIDESHOW, 'slideshow', $catSlideshow, 5);
+            foreach ($slideshowArr as $slideshow) {
+                $catSlideshowSelect->addOption($slideshow->getVar('id'), $slideshow->getVar('name'));
+            }
+            $form->addElement($catSlideshowSelect, true);
+            // Form Text Date Select catDatecreated
+        } else {
+            $singleSlideshow = \reset($slideshowArr);
+            if (false === $singleSlideshow) {
+                \redirect_header('category.php', 3, \_AM_WGSLIDER_CATEGORY_NO_SLIDESHOW);
+            }
+            $slsId   = $singleSlideshow->getVar('id');
+            $slsName = $singleSlideshow->getVar('name');
+            $form->addElement(new \XoopsFormHidden('slideshow', $slsId));
+            $form->addElement(new \XoopsFormLabel(\_AM_WGSLIDER_CATEGORY_SLIDESHOW, $slsName));
+        }
         $catDatecreated = $this->isNew() ? \time() : $this->getVar('datecreated');
-        $form->addElement(new \XoopsFormTextDateSelect(\_AM_WGSLIDER_CATEGORY_DATECREATED, 'datecreated', '', $catDatecreated), true);
+        $form->addElement(new \XoopsFormTextDateSelect(\_AM_WGSLIDER_DATECREATED, 'datecreated', '', $catDatecreated), true);
         // Form Select User catSubmitter
         $uidCurrent = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->uid() : 0;
         $catSubmitter = $this->isNew() ? $uidCurrent : $this->getVar('submitter');
-        $form->addElement(new \XoopsFormSelectUser(\_AM_WGSLIDER_CATEGORY_SUBMITTER, 'submitter', false, $catSubmitter), true);
+        $form->addElement(new \XoopsFormSelectUser(\_AM_WGSLIDER_SUBMITTER, 'submitter', false, $catSubmitter), true);
         // To Save
         $form->addElement(new \XoopsFormHidden('op', 'save'));
         $form->addElement(new \XoopsFormHidden('start', $this->start));
