@@ -101,6 +101,9 @@ class Slideshow extends \XoopsObject
         $form->addElement(new \XoopsFormLabel(\_AM_WGSLIDER_SLIDESHOW_DESCR, $slsDescr));
         // Form Editor TextArea slsParams
         $param_arr =  json_decode($this->getVar('params', 'n'), true);
+        if (!is_array($param_arr)) {
+            $param_arr = [];
+        }
         $paramTray = new \XoopsFormElementTray(\_AM_WGSLIDER_SLIDESHOW_PARAMS, '<br>');
         foreach ($param_arr as $key => $value) {
             switch ($key) {
