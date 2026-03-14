@@ -182,9 +182,11 @@ class Image extends \XoopsObject
         $ret['height_text'] = $this->getVar('height') . ' px';
         $categoryHandler = $helper->getHandler('Category');
         $categoryObj = $categoryHandler->get($this->getVar('category'));
+        $categoryName = 'Invalid Category';
         if (is_object($categoryObj)) {
-            $ret['category_name'] = $categoryObj->getVar('name');
+            $categoryName = $categoryObj->getVar('name');
         }
+        $ret['category_name'] = $categoryName;
         $status        = $this->getVar('status');
         $ret['status'] = $status;
         switch ($status) {
