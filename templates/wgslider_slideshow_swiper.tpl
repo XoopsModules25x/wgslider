@@ -106,29 +106,38 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        <{if $wgs_params.show_thumbs}>
-        const thumbs = new Swiper('.wgs-swiper-thumbs', {
-
-            spaceBetween: 10,
-            slidesPerView: 5,
-            freeMode: true,
-            watchSlidesProgress: true,
-
-            breakpoints: {
-                0: { slidesPerView: 3 },
-                768: { slidesPerView: 4 },
-                1024: { slidesPerView: 5 }
-            }
-
-        });
-        <{/if}>
-
         document.querySelectorAll('.wgs-swiper').forEach(function (slider) {
+
             const effect = slider.dataset.effect || 'slide';
             const perview = parseInt(slider.dataset.perview) || 1;
             const autoplay = slider.dataset.autoplay === "1";
 
+            let thumbsSwiper = null;
+
+            // link thumbnail-slider to related slider
+            <{if $wgs_params.show_thumbs}>
+            const thumbsEl = slider.parentNode.querySelector('.wgs-swiper-thumbs');
+
+            if (thumbsEl) {
+                thumbsSwiper = new Swiper(thumbsEl, {
+
+                    spaceBetween: 10,
+                    slidesPerView: 5,
+                    freeMode: true,
+                    watchSlidesProgress: true,
+
+                    breakpoints: {
+                        0: { slidesPerView: 3 },
+                        768: { slidesPerView: 4 },
+                        1024: { slidesPerView: 5 }
+                    }
+
+                });
+            }
+            <{/if}>
+
             const options = {
+
                 loop: true,
                 effect: effect,
                 slidesPerView: perview,
@@ -155,18 +164,13 @@
 
                 autoHeight: <{$wgs_params.autoheight}>,
 
-                <{if $wgs_params.show_thumbs}>
-                thumbs: {
-                    swiper: thumbs
-                },
-                <{/if}>
-
                 lazy: {
                     loadPrevNext: true
                 }
+
             };
 
-            // Breakpoints only if perview > 1
+            // breakpoints if necessary
             if (perview > 1) {
                 options.breakpoints = {
                     0: { slidesPerView: 1 },
@@ -175,7 +179,18 @@
                 };
             }
 
+            // link thumbnails if necessary
+            <{if $wgs_params.show_thumbs}>
+            if (thumbsSwiper) {
+                options.thumbs = {
+                    swiper: thumbsSwiper
+                };
+            }
+            <{/if}>
+
             new Swiper(slider, options);
+
         });
+
     });
 </script>
