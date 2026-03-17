@@ -244,6 +244,7 @@ class Slideshow extends \XoopsObject
         $ret = $this->getValues($keys, $format, $maxDepth);
         $paramsArray = [];
         $params =  json_decode($this->getVar('params', 'n'), true);
+        if (!is_array($params)) { $params = []; }
         foreach ($params as $key => $value) {
             $paramsArray[$key] = ['descr' => $paramLang[$key] ?? $key, 'value' => $value];
         }
