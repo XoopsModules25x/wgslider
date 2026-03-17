@@ -150,7 +150,7 @@ switch ($op) {
         }
         if (Constants::SLIDESHOW_SPLIDE === $slsId) {
             $params = [
-                'delay'           => Request::getInt('delay'),
+                'interval'        => Request::getInt('interval'),
                 'effect'          => Request::getString('effect'),
                 'perview'         => Request::getString('perview'),
                 'autoplay'        => Request::getString('autoplay'),
