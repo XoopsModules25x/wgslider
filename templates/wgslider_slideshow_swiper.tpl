@@ -80,10 +80,14 @@
             </div>
         <{/foreach}>
     </div>
-
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    
+    <{if $wgs_params.show_indicator}>
+        <div class="swiper-pagination"></div>
+    <{/if}>
+    <{if $wgs_params.show_prev_next}>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    <{/if}>
 </div>
 
 <{if $wgs_params.show_thumbs}>
