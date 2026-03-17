@@ -47,5 +47,7 @@ interface Constants
     public const int SLIDESHOW_DEFAULT = 1;
     public const int SLIDESHOW_BT3     = 2;
     public const int SLIDESHOW_BT5     = 3;
+    public const int SLIDESHOW_SWIPER  = 4;
+    public const int SLIDESHOW_SPLIDE  = 5;
 
 }
