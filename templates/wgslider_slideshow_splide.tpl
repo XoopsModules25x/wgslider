@@ -65,9 +65,9 @@
                 perPage: perpage,
                 autoplay: autoplay,
                 interval: <{$wgs_params.interval}>,
-                pauseOnHover: <{$wgs_params.pauseOnMouse}>,
-                arrows:  <{$wgs_params.show_indicator}>,
-                pagination: <{$wgs_params.show_prev_next}>
+                pauseOnHover: <{$wgs_params.pauseOnMouse|@json_encode}>,
+                arrows:  <{$wgs_params.show_indicator|@json_encode}>,
+                pagination: <{$wgs_params.show_prev_next|@json_encode}>
 
             };
 
