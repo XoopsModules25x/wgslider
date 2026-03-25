@@ -38,13 +38,11 @@
 </style>
 
 
-<div class="splide wgs-splide"
-     data-perpage="<{$wgs_params.perview}>"
-     data-autoplay="<{$wgs_params.autoplay}>">
+<div id="splide-slider-<{$wgslider_identifier}>" class="splide wgs-splide">
 
-    <div id="splide-slider-<{$wgslider_identifier}>" class="splide__track">
+    <div class="splide__track">
         <ul class="splide__list">
-            <{foreach item=slide from=$block}>
+            <{foreach item="slide" from=$block}>
                 <li class="splide__slide">
                     <img src="<{$wgslider_upload_image_url}>/<{$slide.realname}>" alt="<{$slide.name}>">
                     <{if $slide.name && $wgs_params.show_caption}>
@@ -66,7 +64,7 @@
     <div id="thumbnail-splide-slider-<{$wgslider_identifier}>" class="splide">
         <div class="splide__track">
             <ul class="splide__list">
-                <{foreach item=slide from=$block}>
+                <{foreach item="slide" from=$block}>
                     <li class="splide__slide"><img src="<{$wgslider_upload_image_url}>/<{$slide.realname}>" alt="<{$slide.name}>"></li>
                 <{/foreach}>
             </ul>
@@ -122,11 +120,15 @@
                         },
                     },
                 });
-                thumbnails.mount();
+
                 main.sync(thumbnails);
             <{/if}>
 
             main.mount();
+
+            <{if $wgs_params.show_thumbs}>
+                thumbnails.mount();
+            <{/if}>
 
         });
     });
