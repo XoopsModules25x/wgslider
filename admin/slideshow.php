@@ -105,65 +105,40 @@ switch ($op) {
         //$slideshowObj->setVar('name', Request::getString('name'));
         //$slideshowObj->setVar('descr', Request::getString('descr'));
         //$slideshowObj->setVar('tpl', Request::getString('tpl'));
-        if (Constants::SLIDESHOW_DEFAULT === $slsId) {
-            $params = ['timeout' => Request::getInt('timeout')];
+        $param_arr = $slideshowHandler->getDefaultParamsById($slsId);
+        $params = [];
+        foreach (array_keys($param_arr) as $key) {
+            switch ($key) {
+                // params with text or integer
+                case 'timeout':
+                case 'interval':
+                case 'delay':
+                case 'perview':
+                    $params[$key] = Request::getInt($key);
+                    break;
+                // params with string
+                case 'wrap':
+                case 'keyboard':
+                case 'show_indicator':
+                case 'show_prev_next':
+                case 'show_caption':
+                case 'show_descr':
+                case 'show_thumbs':
+                case 'fullsize':
+                case 'touch':
+                case 'pauseOnMouse':
+                case 'autoheight':
+                case 'autoplay':
+                case 'effect':
+                case 'bg_caption':
+                case 'pause':
+                case 'gap':
+                default:
+                    $params[$key] = Request::getString($key);
+                    break;
+            }
         }
-        if (Constants::SLIDESHOW_BT3 === $slsId) {
-            $params = [
-                'interval'        => Request::getInt('interval'),
-                'pause'           => Request::getString('pause'),
-                'wrap'            => Request::getString('wrap'),
-                'keyboard'        => Request::getString('keyboard'),
-                'show_indicator'  => Request::getString('show_indicator'),
-                'show_prev_next'  => Request::getString('show_prev_next'),
-                'fullsize'        => Request::getString('fullsize'),
-            ];
-        }
-        if (Constants::SLIDESHOW_BT5 === $slsId) {
-            $params = [
-                'interval'        => Request::getInt('interval'),
-                'pause'           => Request::getString('pause'),
-                'wrap'            => Request::getString('wrap'),
-                'keyboard'        => Request::getString('keyboard'),
-                'touch'           => Request::getString('touch'),
-                'show_indicator'  => Request::getString('show_indicator'),
-                'show_prev_next'  => Request::getString('show_prev_next'),
-                'show_caption'    => Request::getString('show_caption'),
-                'fullsize'        => Request::getString('fullsize'),
-            ];
-        }
-        if (Constants::SLIDESHOW_SWIPER === $slsId) {
-            $params = [
-                'delay'           => Request::getInt('delay'),
-                'effect'          => Request::getString('effect'),
-                'perview'         => Request::getString('perview'),
-                'autoplay'        => Request::getString('autoplay'),
-                'show_indicator'  => Request::getString('show_indicator'),
-                'show_prev_next'  => Request::getString('show_prev_next'),
-                'show_caption'    => Request::getString('show_caption'),
-                'show_descr'      => Request::getString('show_descr'),
-                'show_thumbs'     => Request::getString('show_thumbs'),
-                'pauseOnMouse'    => Request::getString('pauseOnMouse'),
-                'bg_caption'      => Request::getString('bg_caption'),
-                'autoheight'      => Request::getString('autoheight'),
-            ];
-        }
-        if (Constants::SLIDESHOW_SPLIDE === $slsId) {
-            $params = [
-                'interval'        => Request::getInt('interval'),
-                'effect'          => Request::getString('effect'),
-                'perview'         => Request::getString('perview'),
-                'autoplay'        => Request::getString('autoplay'),
-                'show_indicator'  => Request::getString('show_indicator'),
-                'show_prev_next'  => Request::getString('show_prev_next'),
-                'show_caption'    => Request::getString('show_caption'),
-                'show_descr'      => Request::getString('show_descr'),
-                'show_thumbs'     => Request::getString('show_thumbs'),
-                'pauseOnMouse'    => Request::getString('pauseOnMouse'),
-                'bg_caption'      => Request::getString('bg_caption'),
-                'autoheight'      => Request::getString('autoheight'),
-            ];
-        }
+
         $paramsJSON = json_encode($params);
         $slideshowObj->setVar('params', $paramsJSON);
         $slideshowObj->setVar('status', Request::getInt('status'));
