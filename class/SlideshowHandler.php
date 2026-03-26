@@ -177,11 +177,15 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
                 $slsTpl = $slideshowObj->getVar('tpl');
                 $wgs_params = [];
                 $params = json_decode($slideshowObj->getVar('params', 'n'), true);
+                if (!\is_array($params)) {
+                    $params = [];
+                }
                 foreach ($params as $key => $value) {
-                    $wgs_params[$key] = match ($value) {
+                    $paramValue = \is_array($value) ? ($value['default'] ?? null) : $value;
+                    $wgs_params[$key] = match ($paramValue) {
                         'true' => true,
                         'false' => false,
-                        default => $value,
+                        default => $paramValue,
                     };
                 }
                 $GLOBALS['xoopsTpl']->assign('wgs_params', $wgs_params);
