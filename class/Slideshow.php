@@ -113,67 +113,35 @@ class Slideshow extends \XoopsObject
         $param_arr = \array_replace($defaultParams, $param_arr);
         $paramTray = new \XoopsFormElementTray(\_AM_WGSLIDER_SLIDESHOW_PARAMS, '<br>');
         foreach ($param_arr as $key => $value) {
-            switch ($key) {
+            switch ($value['form']) {
                 // params with text or integer
-                case 'timeout':
+                case 'int':
                 default:
-                    $paramTray->addElement(new \XoopsFormText($paramLang[$key], $key, 10, 255, $value), true);
+                    $paramTray->addElement(new \XoopsFormText(constant($value['label']), $key, 10, 255, $value['default']), true);
                     break;
-                // params with true/false
-                case 'wrap':
-                case 'keyboard':
-                case 'show_indicator':
-                case 'show_prev_next':
-                case 'fullsize':
-                case 'touch':
-                case 'show_caption':
-                case 'show_descr':
-                case 'show_thumbs':
-                case 'pauseOnMouse':
-                case 'autoheight':
-                case 'autoplay':
-                    $fieldSelect[$key] = new \XoopsFormRadio($paramLang[$key] . ':', $key, $value);
-                    $fieldSelect[$key]->addOption('true', 'true');
-                    $fieldSelect[$key]->addOption('false', 'false');
-                    $paramTray->addElement($fieldSelect[$key]);
-                    break;
-                //swiper
-                case 'effect':
-                    $fieldSelect[$key] = new \XoopsFormRadio($paramLang[$key] . ':', $key, $value);
-                    $fieldSelect[$key]->addOption('slide', 'slide');
-                    $fieldSelect[$key]->addOption('fade', 'fade');
-                    $fieldSelect[$key]->addOption('coverflow', 'coverflow');
-                    $paramTray->addElement($fieldSelect[$key]);
-                    break;
-                case 'perview':
-                    $fieldSelect[$key] = new \XoopsFormSelect($paramLang[$key] . ':', $key, $value);
-                    for ($i = 1 ; $i <= 5 ; $i++) {
-                        $fieldSelect[$key]->addOption($i, $i);
+                case 'radio':
+                    $radioSelect[$key] = new \XoopsFormRadio(constant($value['label']) . ':', $key, $value['default']);
+                    foreach ($value['options'] as $keyOption => $valueOption) {
+                        if (substr((string)$valueOption, 0, 1) == '_') {
+                            $label = defined($valueOption) ?  constant($valueOption) : 'missing label';
+                            $radioSelect[$key]->addOption($keyOption, $label);
+                        } else {
+                            $radioSelect[$key]->addOption($keyOption, $valueOption);
+                        }
                     }
-                    $paramTray->addElement($fieldSelect[$key]);
+                    $paramTray->addElement($radioSelect[$key]);
                     break;
-                case 'bg_caption':
-                    $fieldSelect[$key] = new \XoopsFormRadio($paramLang[$key] . ':', $key, $value);
-                    $fieldSelect[$key]->addOption('smooth', 'smooth');
-                    $fieldSelect[$key]->addOption('hard', 'hard');
-                    $paramTray->addElement($fieldSelect[$key]);
-                    break;
-                    // misc params
-                case 'pause':
-                    $fieldSelect[$key] = new \XoopsFormRadio($paramLang[$key] . ':', $key, $value);
-                    $fieldSelect[$key]->addOption('hover', 'hover');
-                    $fieldSelect[$key]->addOption('false', 'false');
-                    $paramTray->addElement($fieldSelect[$key]);
-                    break;
-                //splide
-                case 'gap':
-                    $fieldSelect[$key] = new \XoopsFormSelect($paramLang[$key] . ':', $key, $value);
-                    $fieldSelect[$key]->setDescription(\_AM_WGSLIDER_SLIDESHOW_GAP_DESC);
-                    $fieldSelect[$key]->addOption('0', '0');
-                    $fieldSelect[$key]->addOption('0.1rem', '0.1rem');
-                    $fieldSelect[$key]->addOption('0.5rem', '0.5rem');
-                    $fieldSelect[$key]->addOption('1rem', '1rem');
-                    $paramTray->addElement($fieldSelect[$key]);
+                case 'select':
+                    $selectSelect[$key] = new \XoopsFormSelect(constant($value['label']) . ':', $key, $value['default']);
+                    foreach ($value['options'] as $keyOption => $valueOption) {
+                        if (substr((string)$valueOption, 0, 1) == '_') {
+                            $label = defined($valueOption) ?  constant($valueOption) : 'missing label';
+                            $selectSelect[$key]->addOption($keyOption, $label);
+                        } else {
+                            $selectSelect[$key]->addOption($keyOption, $valueOption);
+                        }
+                    }
+                    $paramTray->addElement($selectSelect[$key]);
                     break;
             }
         }
@@ -247,16 +215,13 @@ class Slideshow extends \XoopsObject
      */
     public function getValuesSlideshow($keys = null, $format = null, $maxDepth = null): array
     {
-        $helper = \XoopsModules\Wgslider\Helper::getInstance();
-        $slideshowHandler = $helper->getHandler('Slideshow');
-        $paramLang = $slideshowHandler->loadParamLanguage();
-
         $ret = $this->getValues($keys, $format, $maxDepth);
         $paramsArray = [];
         $params =  json_decode($this->getVar('params', 'n'), true);
         if (!is_array($params)) { $params = []; }
         foreach ($params as $key => $value) {
-            $paramsArray[$key] = ['descr' => $paramLang[$key] ?? $key, 'value' => $value];
+            $label = defined($value['label']) ?  constant($value['label']) : 'missing label';
+            $paramsArray[$key] = ['descr' => $label ?? $key, 'value' => $value['default'] ?? $value];
         }
         $ret['params_arr'] = $paramsArray;
 

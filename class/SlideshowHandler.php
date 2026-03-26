@@ -123,37 +123,6 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * Load language for params
-     * @return array
-     */
-    public function loadParamLanguage(): array
-    {
-        $paramLang = [];
-        $paramLang['timeout'] = \_AM_WGSLIDER_SLIDESHOW_DELAY;
-        $paramLang['interval'] = \_AM_WGSLIDER_SLIDESHOW_DELAY;
-        $paramLang['pause'] = \_AM_WGSLIDER_SLIDESHOW_PAUSE;
-        $paramLang['wrap'] = \_AM_WGSLIDER_SLIDESHOW_WRAP;
-        $paramLang['keyboard'] = \_AM_WGSLIDER_SLIDESHOW_KEYBOARD;
-        $paramLang['touch'] = \_AM_WGSLIDER_SLIDESHOW_TOUCH;
-        $paramLang['show_indicator'] = \_AM_WGSLIDER_SLIDESHOW_SHOW_INDICATOR;
-        $paramLang['show_prev_next'] = \_AM_WGSLIDER_SLIDESHOW_SHOW_PREV_NEXT;
-        $paramLang['show_caption'] = \_AM_WGSLIDER_SLIDESHOW_SHOW_CAPTION;
-        $paramLang['show_descr'] = \_AM_WGSLIDER_SLIDESHOW_SHOW_DESCR;
-        $paramLang['show_thumbs'] = \_AM_WGSLIDER_SLIDESHOW_SHOW_THUMBS;
-        $paramLang['fullsize'] = \_AM_WGSLIDER_SLIDESHOW_FULLSIZE;
-        $paramLang['delay'] = \_AM_WGSLIDER_SLIDESHOW_DELAY;
-        $paramLang['effect'] = \_AM_WGSLIDER_SLIDESHOW_EFFECT;
-        $paramLang['perview'] = \_AM_WGSLIDER_SLIDESHOW_PERVIEW;
-        $paramLang['autoplay'] = \_AM_WGSLIDER_SLIDESHOW_AUTOPLAY;
-        $paramLang['pauseOnMouse'] = \_AM_WGSLIDER_SLIDESHOW_PAUSE;
-        $paramLang['bg_caption'] = \_AM_WGSLIDER_SLIDESHOW_BG_CAPTION;
-        $paramLang['autoheight'] = \_AM_WGSLIDER_SLIDESHOW_AUTOHEIGHT;
-        $paramLang['gap'] = \_AM_WGSLIDER_SLIDESHOW_GAP;
-
-        return $paramLang;
-    }
-
-    /**
      * Load all default slideshows
      * @return bool
      */
@@ -167,7 +136,6 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
         $defaultSliders[] = $this->getSlideshowBt5();
         $defaultSliders[] = $this->getSlideshowSwiper();
         $defaultSliders[] = $this->getSlideshowSplide();
-
 
         foreach ($defaultSliders as $slider) {
             $slideshowObj = $slideshowHandler->get($slider['id']);
@@ -261,7 +229,12 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'status'    =>  Constants::STATUS_ONLINE,
             'credits'   =>  '',
             'params'    => json_encode([
-                'timeout'   => 4000
+                'timeout' => [
+                    'type' => 'int',
+                    'default' => 4000,
+                    'form' => 'text',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_DELAY',
+                ]
             ])
         ];
     }
@@ -281,13 +254,54 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'status'    => Constants::STATUS_ONLINE,
             'credits'   =>  'https://getbootstrap.com',
             'params'    => json_encode([
-                'interval'   => 4000,
-                'pause'      => 'hover',
-                'wrap'       => 'true',
-                'keyboard'   => 'true',
-                'show_indicator'  => 'true',
-                'show_prev_next'  => 'true',
-                'fullsize'        => 'true',
+                'interval' => [
+                    'type' => 'int',
+                    'default' => 4000,
+                    'form' => 'int',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_DELAY',
+                ],
+                'pause' => [
+                    'type' => 'text',
+                    'default' => 'hover',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PAUSE',
+                    'options' => ['hover' => '_YES', 'false' => '_NO'],
+                ],
+                'wrap' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_WRAP',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'keyboard' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_KEYBOARD',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_indicator' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_INDICATOR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_prev_next' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_PREV_NEXT',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'fullsize' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_FULLSIZE',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
             ])
         ];
     }
@@ -307,16 +321,75 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'status'    => Constants::STATUS_ONLINE,
             'credits'   =>  'https://getbootstrap.com',
             'params'    => json_encode([
-                'interval'        => 4000,
-                'pause'           => 'hover',
-                'wrap'            => 'true',
-                'keyboard'        => 'true',
-                'touch'           => 'true',
-                'show_indicator'  => 'true',
-                'show_prev_next'  => 'true',
-                'show_caption'    => 'true',
-                'show_descr'      => 'true',
-                'fullsize'        => 'true',
+                'interval' => [
+                    'type' => 'int',
+                    'default' => 4000,
+                    'form' => 'int',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_DELAY',
+                ],
+                'pause' => [
+                    'type' => 'text',
+                    'default' => 'hover',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PAUSE',
+                    'options' => ['hover' => '_YES', 'false' => '_NO'],
+                ],
+                'wrap' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_WRAP',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'touch' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_TOUCH',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'keyboard' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_KEYBOARD',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_indicator' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_INDICATOR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_prev_next' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_PREV_NEXT',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_caption' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_CAPTION',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_descr' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_DESCR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'fullsize' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_FULLSIZE',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
             ])
         ];
     }
@@ -336,18 +409,89 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'status'    =>  Constants::STATUS_ONLINE,
             'credits'   =>  'https://swiperjs.com',
             'params'    => json_encode([
-                'delay'           => 4000,
-                'effect'          => 'slide',
-                'perview'         => 1,
-                'autoplay'        => 'true',
-                'show_indicator'  => 'true',
-                'show_prev_next'  => 'true',
-                'show_caption'    => 'true',
-                'show_descr'      => 'true',
-                'show_thumbs'     => 'false',
-                'pauseOnMouse'    => 'true',
-                'bg_caption'      => 'hard',
-                'autoheight'      => 'true',
+                'delay' => [
+                    'type' => 'int',
+                    'default' => 4000,
+                    'form' => 'int',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_DELAY',
+                ],
+                'effect'          => [
+                    'type' => 'text',
+                    'default' => 'slide',
+                    'form' => 'select',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_EFFECT',
+                    'options' => ['slide' => 'slide', 'fade' => 'fade', 'coverflow' => 'coverflow'],
+                ],
+                'perview' => [
+                    'type' => 'text',
+                    'default' => 1,
+                    'form' => 'select',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PERVIEW',
+                    'options' => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10],
+                ],
+                'autoplay'        => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_AUTOPLAY',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_indicator'  => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_INDICATOR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_prev_next' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_PREV_NEXT',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_caption' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_CAPTION',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_descr' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_DESCR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_thumbs' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_THUMBS',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'pauseOnMouse' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PAUSE',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'bg_caption' => [
+                    'type' => 'text',
+                    'default' => 'hard',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_BG_CAPTION',
+                    'options' => ['hard' => 'hard', 'smooth' => 'smooth'],
+                ],
+                'autoheight' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_AUTOHEIGHT',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
             ])
         ];
     }
@@ -367,16 +511,75 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'status'    =>  Constants::STATUS_ONLINE,
             'credits'   =>  'https://splidejs.com/',
             'params'    => json_encode([
-                'interval'        => 4000,
-                'perview'         => 1,
-                'autoplay'        => 'true',
-                'show_indicator'  => 'true',
-                'show_prev_next'  => 'true',
-                'show_caption'    => 'true',
-                'show_descr'      => 'true',
-                'pauseOnMouse'    => 'true',
-                'gap'             => '0.1rem',
-                'show_thumbs'     => 'false',
+                'interval' => [
+                    'type' => 'int',
+                    'default' => 4000,
+                    'form' => 'int',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_DELAY',
+                ],
+                'perview' => [
+                    'type' => 'text',
+                    'default' => 1,
+                    'form' => 'select',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PERVIEW',
+                    'options' => [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10],
+                ],
+                'autoplay' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_AUTOPLAY',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_indicator'  => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_INDICATOR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_prev_next' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_PREV_NEXT',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_caption' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_CAPTION',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'show_descr' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_DESCR',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'pauseOnMouse' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PAUSE',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
+                'gap' => [
+                    'type' => 'text',
+                    'default' => '0.1rem',
+                    'form' => 'select',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_PAUSE',
+                    'options' => ['0.1rem' => '0.1rem', '0.2rem' => '0.2rem','0.5rem' => '0.5rem','1rem' => '1rem'],
+                ],
+                'show_thumbs' => [
+                    'type' => 'text',
+                    'default' => 'true',
+                    'form' => 'radio',
+                    'label' => '_AM_WGSLIDER_SLIDESHOW_SHOW_THUMBS',
+                    'options' => ['true' => '_YES', 'false' => '_NO'],
+                ],
             ])
         ];
     }

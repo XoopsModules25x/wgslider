@@ -107,38 +107,28 @@ switch ($op) {
         //$slideshowObj->setVar('tpl', Request::getString('tpl'));
         $param_arr = $slideshowHandler->getDefaultParamsById($slsId);
         $params = [];
-        foreach (array_keys($param_arr) as $key) {
+        foreach ($param_arr as $key => $value) {
+            $params[$key]['type']  = $value['type'];
+            $params[$key]['form']  = $value['form'];
+            $params[$key]['label'] = $value['label'];
             switch ($key) {
                 // params with text or integer
                 case 'timeout':
                 case 'interval':
                 case 'delay':
                 case 'perview':
-                    $params[$key] = Request::getInt($key);
+                $params[$key]['default'] = Request::getInt($key);
                     break;
                 // params with string
                 case 'wrap':
-                case 'keyboard':
-                case 'show_indicator':
-                case 'show_prev_next':
-                case 'show_caption':
-                case 'show_descr':
-                case 'show_thumbs':
-                case 'fullsize':
-                case 'touch':
-                case 'pauseOnMouse':
-                case 'autoheight':
-                case 'autoplay':
-                case 'effect':
-                case 'bg_caption':
-                case 'pause':
-                case 'gap':
                 default:
-                    $params[$key] = Request::getString($key);
+                    $params[$key]['default']  = Request::getString($key);
+                    if ('radio' === (string)$value['form'] || 'select' === (string)$value['form']) {
+                        $params[$key]['options'] = $value['options'];
+                    }
                     break;
             }
         }
-
         $paramsJSON = json_encode($params);
         $slideshowObj->setVar('params', $paramsJSON);
         $slideshowObj->setVar('status', Request::getInt('status'));
