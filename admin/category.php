@@ -22,10 +22,9 @@ declare(strict_types=1);
  */
 
 use Xmf\Request;
-use XoopsModules\Wgslider\{
-    Constants,
-    Common
-};
+use XoopsModules\Wgslider;
+use XoopsModules\Wgslider\Constants;
+use XoopsModules\Wgslider\Common;
 
 require __DIR__ . '/header.php';
 // Get all request values
@@ -35,8 +34,6 @@ $start = Request::getInt('start');
 $limit = Request::getInt('limit', $helper->getConfig('adminpager'));
 $GLOBALS['xoopsTpl']->assign('start', $start);
 $GLOBALS['xoopsTpl']->assign('limit', $limit);
-
-$usePerm = (bool)$helper->getConfig('usePermission');
 
 switch ($op) {
     case 'list':
@@ -54,6 +51,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('wgslider_upload_url', \WGSLIDER_UPLOAD_URL);
         // Table view category
         if ($categoryCount > 0) {
+            $slideshowHandler = $helper->getHandler('Slideshow');
             foreach (\array_keys($categoryAll) as $i) {
                 $category = $categoryAll[$i]->getValuesCategory();
                 // check whether slideshow is still online
@@ -62,12 +60,6 @@ switch ($op) {
                 $crSlideshow->add(new \Criteria('status', Constants::STATUS_ONLINE));
                 $slideshowCount = $slideshowHandler->getCount($crSlideshow);
                 $category['slideshow_offline'] = (0 === $slideshowCount);
-                if ($usePerm) {
-                    $permEdit = $permissionHandler->getPermCategoryEdit($i, $category['submitter']);
-                } else {
-                    $permEdit = true;
-                }
-                $category['perm_edit'] = $permEdit;
                 $GLOBALS['xoopsTpl']->append('category_list', $category);
                 unset($category);
             }
@@ -82,53 +74,6 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('error', \_AM_WGSLIDER_THEREARENT_CATEGORIES);
         }
         break;
-    case 'preview':
-        if ($catId > 0) {
-            $categoryObj = $categoryHandler->get($catId);
-        } else {
-            \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
-        }
-        if (!$categoryObj) {
-            \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
-        }
-
-        $GLOBALS['xoTheme']->addStylesheet($style, null);
-        $templateMain = 'wgslider_admin_category.tpl';
-
-        $slsElements = $slideshowHandler->getSlideshowElements($catId, 0, true, true);
-
-        if (empty($slsElements['block']['images'])) {
-            $GLOBALS['xoopsTpl']->assign('error', \_AM_WGSLIDER_THEREARENT_IMAGES);
-            break;
-        }
-
-        $slsId = (int)$categoryObj->getVar('slideshow');
-        switch ($slsId) {
-            case 0:
-            default:
-                \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
-                break;
-            case Constants::SLIDESHOW_DEFAULT:
-            case Constants::SLIDESHOW_SPLIDE:
-            case Constants::SLIDESHOW_SWIPER:
-                // no assets needed, they are in the template
-                break;
-            case Constants::SLIDESHOW_BT3:
-            case Constants::SLIDESHOW_BT5:
-                $css = $slsElements['block']['assets']['css'];
-                $js = $slsElements['block']['assets']['js'];
-                $GLOBALS['xoTheme']->addStylesheet($css, null);
-                $GLOBALS['xoTheme']->addScript($js);
-                break;
-        }
-        $slsIdentifier = md5(uniqid((string)$catId, true));
-        $GLOBALS['xoopsTpl']->assign('wgslider_upload_image_url', WGSLIDER_UPLOAD_IMAGE_URL);
-        $GLOBALS['xoopsTpl']->assign('wgslider_url', WGSLIDER_URL);
-        $GLOBALS['xoopsTpl']->assign('wgslider_identifier', $slsIdentifier);
-        $GLOBALS['xoopsTpl']->assign('wgslider_slideshow_tpl', $slsElements['slsTpl']);
-        $GLOBALS['xoopsTpl']->assign('block', $slsElements['block']);
-        $GLOBALS['xoopsTpl']->assign('preview', true);
-        break;
     case 'change_status':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('category.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -137,9 +82,6 @@ switch ($op) {
             $categoryObj = $categoryHandler->get($catId);
         } else {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_PARAM);
-        }
-        if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
-            \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
         $currentStatus = (int)$categoryObj->getVar('status');
         if (Constants::STATUS_OFFLINE === $currentStatus) {
@@ -160,9 +102,6 @@ switch ($op) {
         $adminObject->addItemButton(\_AM_WGSLIDER_LIST_CATEGORY, 'category.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Create
-        if ($usePerm && !$permissionHandler->getPermCategorySubmit()) {
-            \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
-        }
         $categoryObj = $categoryHandler->create();
         $form = $categoryObj->getFormCategory();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -177,9 +116,6 @@ switch ($op) {
         $catIdSource = Request::getInt('id_source');
         // Get Form
         $categoryObjSource = $categoryHandler->get($catIdSource);
-        if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObjSource->getVar('id'), $categoryObjSource->getVar('submitter'))) {
-            \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
-        }
         $categoryObj = $categoryObjSource->xoopsClone();
         $form = $categoryObj->getFormCategory();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -191,13 +127,7 @@ switch ($op) {
         }
         if ($catId > 0) {
             $categoryObj = $categoryHandler->get($catId);
-            if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
-                \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
-            }
         } else {
-            if ($usePerm && !$permissionHandler->getPermCategorySubmit()) {
-                \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
-            }
             $categoryObj = $categoryHandler->create();
         }
         // Set Vars
@@ -233,9 +163,6 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Get Form
         $categoryObj = $categoryHandler->get($catId);
-        if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
-            \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
-        }
         $categoryObj->start = $start;
         $categoryObj->limit = $limit;
         $form = $categoryObj->getFormCategory();
@@ -245,9 +172,6 @@ switch ($op) {
         $templateMain = 'wgslider_admin_category.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('category.php'));
         $categoryObj = $categoryHandler->get($catId);
-        if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
-            \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
-        }
         $catName = $categoryObj->getVar('name');
         if (1 === Request::getInt('ok')) {
             if (!$GLOBALS['xoopsSecurity']->check()) {

@@ -42,9 +42,7 @@
                     </form>
                 </td>
                 <td class="center  width5">
-                    <div class="xo-buttons">
-                        <a href="slideshow.php?op=edit&id=<{$slideshow.id|default:false}>&start=<{$start|default:0}>&limit=<{$limit|default:0}>" title="<{$smarty.const._EDIT}>"><i class="fa fa-edit"></i></a>
-                    </div>
+                    <a href="slideshow.php?op=edit&amp;id=<{$slideshow.id|default:false}>&amp;start=<{$start|default:0}>&amp;limit=<{$limit|default:0}>" title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 'edit.png'}>" alt="<{$smarty.const._EDIT}>" ></a>
                 </td>
             </tr>
             <{/foreach}>
