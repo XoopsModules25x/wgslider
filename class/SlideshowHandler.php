@@ -167,8 +167,11 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
     public function getSlideshowElements(int $catId, int $display, bool $assets = false, bool $preview = false): array
     {
         $helper = \XoopsModules\Wgslider\Helper::getInstance();
+        /** `@var` \XoopsModules\Wgslider\ImageHandler $imageHandler */
         $imageHandler    = $helper->getHandler('Image');
+        /** `@var` \XoopsModules\Wgslider\CategoryHandler $categoryHandler */
         $categoryHandler = $helper->getHandler('Category');
+        
         $block     = [];
         $slsParams = [];
         $slsAssets = [];
