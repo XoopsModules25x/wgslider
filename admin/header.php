@@ -32,11 +32,10 @@ $modPathIcon32   = \WGSLIDER_URL . '/' . $GLOBALS['xoopsModule']->getInfo('modic
 
 // Get instance of module
 $helper = \XoopsModules\Wgslider\Helper::getInstance();
-$categoryHandler   = $helper->getHandler('Category');
-$imageHandler      = $helper->getHandler('Image');
-$slideshowHandler  = $helper->getHandler('Slideshow');
-$permissionHandler = $helper->getHandler('Permission');
-//$myts = MyTextSanitizer::getInstance();
+$categoryHandler = $helper->getHandler('Category');
+$imageHandler = $helper->getHandler('Image');
+$slideshowHandler = $helper->getHandler('Slideshow');
+$myts = MyTextSanitizer::getInstance();
 // 
 if (!isset($xoopsTpl) || !\is_object($xoopsTpl)) {
     require_once \XOOPS_ROOT_PATH . '/class/template.php';

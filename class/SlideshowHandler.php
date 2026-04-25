@@ -149,7 +149,6 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             $slideshowObj->setVar('status', $slider['status']);
             $slideshowObj->setVar('credits', $slider['credits']);
             $slideshowObj->setVar('params', $slider['params']);
-            $slideshowObj->setVar('assets', $slider['assets']);
             $slideshowHandler->insert($slideshowObj);
         }
 
@@ -158,51 +157,38 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Render array for slideshow, used as block or smarty
-     * @param int  $catId
-     * @param int  $display
-     * @param bool $assets
-     * @param bool $preview
+     * @param int $catId
+     * @param int $display
      * @return array
      */
-    public function getSlideshowElements(int $catId, int $display, bool $assets = false, bool $preview = false): array
+    public function getSlideshowElements(int $catId, int $display): array
     {
         $helper = \XoopsModules\Wgslider\Helper::getInstance();
-        $imageHandler    = $helper->getHandler('Image');
+        $imageHandler = $helper->getHandler('Image');
         $categoryHandler = $helper->getHandler('Category');
-        $block     = [];
-        $slsParams = [];
-        $slsAssets = [];
 
         $categoryObj = $categoryHandler->get($catId);
         if (is_object($categoryObj)) {
-            if ((int)$categoryObj->getVar('display') <> $display && !$preview) {
-                return [];
-            }
-            if ((int)$categoryObj->getVar('status') <> Constants::STATUS_ONLINE) {
+            if ((int)$categoryObj->getVar('display') <> $display) {
                 return [];
             }
             $slideshowObj = $this->get($categoryObj->getVar('slideshow'));
             if (is_object($slideshowObj)) {
                 $slsTpl = $slideshowObj->getVar('tpl');
-
+                $wgs_params = [];
                 $params = json_decode($slideshowObj->getVar('params', 'n'), true);
                 if (!\is_array($params)) {
                     $params = [];
                 }
                 foreach ($params as $key => $value) {
                     $paramValue = \is_array($value) ? ($value['default'] ?? null) : $value;
-                    $slsParams[$key] = match ($paramValue) {
+                    $wgs_params[$key] = match ($paramValue) {
                         'true' => true,
                         'false' => false,
                         default => $paramValue,
                     };
                 }
-                if ($assets) {
-                    $slsAssets = json_decode($slideshowObj->getVar('assets', 'n'), true);
-                    if (!\is_array($slsAssets)) {
-                        $slsAssets = [];
-                    }
-                }
+                $GLOBALS['xoopsTpl']->assign('wgs_params', $wgs_params);
             } else {
                 return [];
             }
@@ -211,9 +197,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
         }
         $crImage = new \CriteriaCompo();
         $crImage->add(new \Criteria('category', $catId));
-        if (!$preview) {
-            $crImage->add(new \Criteria('status', Constants::STATUS_ONLINE));
-        }
+        $crImage->add(new \Criteria('status', Constants::STATUS_ONLINE));
         $crImage->setSort('weight');
         $crImage->setOrder('ASC');
         $imageCount = $imageHandler->getCount($crImage);
@@ -221,18 +205,13 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
         if ($imageCount > 0) {
             $imageAll = $imageHandler->getAll($crImage);
             foreach (\array_keys($imageAll) as $i) {
-                $block['images'][$i]['id'] = $imageAll[$i]->getVar('id');
-                $block['images'][$i]['name'] = \htmlspecialchars($imageAll[$i]->getVar('name'), ENT_QUOTES | ENT_HTML5);
-                $block['images'][$i]['description'] = \htmlspecialchars($imageAll[$i]->getVar('description'), ENT_QUOTES | ENT_HTML5);
-                $block['images'][$i]['realname'] = $imageAll[$i]->getVar('realname');
+                $block[$i]['id'] = $imageAll[$i]->getVar('id');
+                $block[$i]['name'] = \htmlspecialchars($imageAll[$i]->getVar('name'), ENT_QUOTES | ENT_HTML5);
+                $block[$i]['description'] = \htmlspecialchars($imageAll[$i]->getVar('description'), ENT_QUOTES | ENT_HTML5);
+                $block[$i]['realname'] = $imageAll[$i]->getVar('realname');
             }
-        } else {
-            $block['images'] = [];
         }
         unset($crImage);
-
-        $block['params'] = $slsParams;
-        $block['assets'] = $slsAssets;
 
         return ['slsTpl' => $slsTpl, 'block' => $block];
     }
@@ -249,9 +228,8 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'name'      => 'Default',
             'descr'     => _AM_WGSLIDER_SLIDESHOW_DESCR_DEFAULT,
             'tpl'       => 'wgslider_slideshow_default.tpl',
-            'status'    => Constants::STATUS_ONLINE,
-            'credits'   => '',
-            'assets'    => json_encode(['css' => '', 'js' => '']),
+            'status'    =>  Constants::STATUS_ONLINE,
+            'credits'   =>  '',
             'params'    => json_encode([
                 'timeout' => [
                     'type' => 'int',
@@ -276,11 +254,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'descr'     => _AM_WGSLIDER_SLIDESHOW_DESCR_BT3,
             'tpl'       => 'wgslider_slideshow_bt3.tpl',
             'status'    => Constants::STATUS_ONLINE,
-            'credits'   => 'https://getbootstrap.com',
-            'assets'    => json_encode([
-                'css' => 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
-                'js' => 'https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js'
-            ]),
+            'credits'   =>  'https://getbootstrap.com',
             'params'    => json_encode([
                 'interval' => [
                     'type' => 'int',
@@ -347,11 +321,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'descr'     => _AM_WGSLIDER_SLIDESHOW_DESCR_BT5,
             'tpl'       => 'wgslider_slideshow_bt5.tpl',
             'status'    => Constants::STATUS_ONLINE,
-            'credits'   => 'https://getbootstrap.com',
-            'assets'    => json_encode([
-                'css' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
-                'js' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'
-            ]),
+            'credits'   =>  'https://getbootstrap.com',
             'params'    => json_encode([
                 'interval' => [
                     'type' => 'int',
@@ -438,12 +408,8 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'name'      => 'Swiper',
             'descr'     => _AM_WGSLIDER_SLIDESHOW_DESCR_SWIPER,
             'tpl'       => 'wgslider_slideshow_swiper.tpl',
-            'status'    => Constants::STATUS_ONLINE,
-            'credits'   => 'https://swiperjs.com',
-            'assets'    => json_encode([
-                'css' => 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
-                'js' => 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js'
-            ]),
+            'status'    =>  Constants::STATUS_ONLINE,
+            'credits'   =>  'https://swiperjs.com',
             'params'    => json_encode([
                 'delay' => [
                     'type' => 'int',
@@ -544,12 +510,8 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
             'name'      => 'Splide',
             'descr'     => _AM_WGSLIDER_SLIDESHOW_DESCR_SPLIDE,
             'tpl'       => 'wgslider_slideshow_splide.tpl',
-            'status'    => Constants::STATUS_ONLINE,
-            'credits'   => 'https://splidejs.com/',
-            'assets'    => json_encode([
-                'css' => 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/css/splide.min.css',
-                'js' => 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4/dist/js/splide.min.js'
-                ]),
+            'status'    =>  Constants::STATUS_ONLINE,
+            'credits'   =>  'https://splidejs.com/',
             'params'    => json_encode([
                 'interval' => [
                     'type' => 'int',
