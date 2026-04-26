@@ -137,6 +137,7 @@ class PermissionHandler extends \XoopsPersistableObjectHandler
     /**
      * @public function getPermCategoryEdit
      * returns right for editing category
+     * if user is no admin then he must be the submitter and he must belong to a group with permission to edit
      * @param int $catId
      * @param int $catSubmitter
      *
@@ -148,9 +149,12 @@ class PermissionHandler extends \XoopsPersistableObjectHandler
             return true;
         }
 
-        [$mid, $isAdmin, $my_group_ids] = $this->getPermContext();
+        [$mid, $isAdmin, $my_group_ids, $uid] = $this->getPermContext();
         if ($isAdmin) {
             return true;
+        }
+        if ($uid !== $catSubmitter) {
+            return false;
         }
         /** `@var` \XoopsGroupPermHandler $gpermHandler */
         $grouppermHandler = \xoops_getHandler('groupperm');
