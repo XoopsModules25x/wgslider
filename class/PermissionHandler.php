@@ -44,7 +44,7 @@ class PermissionHandler extends \XoopsPersistableObjectHandler
     /**
      * Resolve current module id, admin flag, and the user's group ids.
      *
-     * `@return` array{0:int,1:bool,2:array<int>}
+     * `@return` array{0:int,1:bool,2:array<int>, 3:int}
      */
     private function getPermContext(): array
     {

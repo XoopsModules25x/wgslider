@@ -175,6 +175,7 @@ class SlideshowHandler extends \XoopsPersistableObjectHandler
         $block     = [];
         $slsParams = [];
         $slsAssets = [];
+        $slsTpl    = '';
 
         $categoryObj = $categoryHandler->get($catId);
         if (is_object($categoryObj)) {

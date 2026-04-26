@@ -39,7 +39,7 @@ $formSelect->setExtra('onchange="document.fselperm.submit()"');
 $formSelect->addOption('global', \_AM_WGSLIDER_PERMS_GLOBAL);
 $formSelect->addOption('cat_view', \_AM_WGSLIDER_PERMS_CATEGORY_VIEW);
 $permTableForm->addElement($formSelect);
-$permTableForm->display();
+$GLOBALS['xoopsTpl']->assign('form_select', $permTableForm->render());
 switch ($op) {
     case 'global':
     default:

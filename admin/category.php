@@ -62,6 +62,7 @@ switch ($op) {
                 $crSlideshow->add(new \Criteria('status', Constants::STATUS_ONLINE));
                 $slideshowCount = $slideshowHandler->getCount($crSlideshow);
                 $category['slideshow_offline'] = (0 === $slideshowCount);
+                // check permissions
                 if ($usePerm) {
                     $permEdit = $permissionHandler->getPermCategoryEdit($i, $category['submitter']);
                 } else {
@@ -83,14 +84,17 @@ switch ($op) {
         }
         break;
     case 'preview':
+        // check parameter
         if ($catId > 0) {
             $categoryObj = $categoryHandler->get($catId);
         } else {
             \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        // check whether object is valid
         if (!\is_object($categoryObj)) {
             \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        // check permissions
         if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
@@ -124,8 +128,8 @@ switch ($op) {
                 break;
         }
         $slsIdentifier = md5(uniqid((string)$catId, true));
-        $GLOBALS['xoopsTpl']->assign('wgslider_upload_image_url', WGSLIDER_UPLOAD_IMAGE_URL);
-        $GLOBALS['xoopsTpl']->assign('wgslider_url', WGSLIDER_URL);
+        $GLOBALS['xoopsTpl']->assign('wgslider_upload_image_url', \WGSLIDER_UPLOAD_IMAGE_URL);
+        $GLOBALS['xoopsTpl']->assign('wgslider_url', \WGSLIDER_URL);
         $GLOBALS['xoopsTpl']->assign('wgslider_identifier', $slsIdentifier);
         $GLOBALS['xoopsTpl']->assign('wgslider_slideshow_tpl', $slsElements['slsTpl']);
         $GLOBALS['xoopsTpl']->assign('block', $slsElements['block']);
@@ -137,12 +141,14 @@ switch ($op) {
         }
         if ($catId > 0) {
             $categoryObj = $categoryHandler->get($catId);
+            // check whether object is valid
             if (!\is_object($categoryObj)) {
                 \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
             }
         } else {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        // check permissions
         if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
@@ -164,10 +170,11 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('category.php'));
         $adminObject->addItemButton(\_AM_WGSLIDER_LIST_CATEGORY, 'category.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
-        // Form Create
+        // check permissions
         if ($usePerm && !$permissionHandler->getPermCategorySubmit()) {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
+        // Form Create
         $categoryObj = $categoryHandler->create();
         $form = $categoryObj->getFormCategory();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -182,9 +189,11 @@ switch ($op) {
         $catIdSource = Request::getInt('id_source');
         // Get Form
         $categoryObjSource = $categoryHandler->get($catIdSource);
+        // check whether object is valid
         if (!\is_object($categoryObjSource)) {
             \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        // check permissions
         if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObjSource->getVar('id'), $categoryObjSource->getVar('submitter'))) {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
@@ -199,13 +208,16 @@ switch ($op) {
         }
         if ($catId > 0) {
             $categoryObj = $categoryHandler->get($catId);
+            // check whether object is valid
             if (!\is_object($categoryObj)) {
                 \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
             }
+            // check permissions
             if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
                 \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
             }
         } else {
+            // check permissions
             if ($usePerm && !$permissionHandler->getPermCategorySubmit()) {
                 \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
             }
@@ -244,9 +256,11 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Get Form
         $categoryObj = $categoryHandler->get($catId);
+        // check whether object is valid
         if (!\is_object($categoryObj)) {
             \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        // check permissions
         if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
@@ -259,9 +273,11 @@ switch ($op) {
         $templateMain = 'wgslider_admin_category.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('category.php'));
         $categoryObj = $categoryHandler->get($catId);
+        // check whether object is valid
         if (!\is_object($categoryObj)) {
             \redirect_header('category.php?op=list', 2, \_AM_WGSLIDER_INVALID_PARAM);
         }
+        // check permissions
         if ($usePerm && !$permissionHandler->getPermCategoryEdit($categoryObj->getVar('id'), $categoryObj->getVar('submitter'))) {
             \redirect_header('category.php?op=list&start=' . $start . '&limit=' . $limit, 2, \_NOPERM);
         }
