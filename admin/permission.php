@@ -26,7 +26,7 @@ require_once \XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 // Check admin have access to this page
 $templateMain = 'wgslider_admin_permission.tpl';
-$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('permissions.php'));
+$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('permission.php'));
 $op = Request::getString('op', 'global');
 if (!\in_array($op, ['global', 'cat_submit', 'cat_view'], true)) {
     $op = 'global';
@@ -37,7 +37,6 @@ $permTableForm = new \XoopsSimpleForm('', 'fselperm', 'permission.php', 'post');
 $formSelect    = new \XoopsFormSelect('', 'op', $op);
 $formSelect->setExtra('onchange="document.fselperm.submit()"');
 $formSelect->addOption('global', \_AM_WGSLIDER_PERMS_GLOBAL);
-$formSelect->addOption('cat_submit', \_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT);
 $formSelect->addOption('cat_view', \_AM_WGSLIDER_PERMS_CATEGORY_VIEW);
 $permTableForm->addElement($formSelect);
 $permTableForm->display();
@@ -47,12 +46,9 @@ switch ($op) {
         $formTitle   = \_AM_WGSLIDER_PERMS_GLOBAL;
         $permName    = 'wgslider_global';
         $permDesc    = \_AM_WGSLIDER_PERMS_GLOBAL_DESC;
-        $globalPerms = [Constants::PERM_GLOBAL_SUBMIT => \_AM_WGSLIDER_PERMS_GLOBAL_SUBMIT, Constants::PERM_GLOBAL_VIEW => \_AM_WGSLIDER_PERMS_GLOBAL_VIEW];
-        break;
-    case 'cat_submit':
-        $formTitle   = \_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT;
-        $permName    = 'wgslider_cat_submit';
-        $permDesc    = \_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT_DESC;
+        $globalPerms = [Constants::PERM_GLOBAL_SUBMIT => \_AM_WGSLIDER_PERMS_GLOBAL_SUBMIT,
+                        Constants::PERM_GLOBAL_VIEW => \_AM_WGSLIDER_PERMS_GLOBAL_VIEW,
+                        Constants::PERM_CATEGORY_SUBMIT => \_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT];
         break;
     case 'cat_view':
         $formTitle = \_AM_WGSLIDER_PERMS_CATEGORY_VIEW;
@@ -63,13 +59,13 @@ switch ($op) {
 $moduleId = $xoopsModule->getVar('mid');
 
 if ('global' === $op) {
-    $permform = new \XoopsGroupPermForm($formTitle, $moduleId, $permName, $permDesc, 'admin/permissions.php', false);
+    $permform = new \XoopsGroupPermForm($formTitle, $moduleId, $permName, $permDesc, 'admin/permission.php', false);
     foreach ($globalPerms as $gPermId => $gPermName) {
         $permform->addItem($gPermId, $gPermName);
     }
     $GLOBALS['xoopsTpl']->assign('form', $permform->render());
 } else {
-    $permform    = new \XoopsGroupPermForm($formTitle, $moduleId, $permName, $permDesc, 'admin/permissions.php');
+    $permform    = new \XoopsGroupPermForm($formTitle, $moduleId, $permName, $permDesc, 'admin/permission.php');
     $categoryCount = $categoryHandler->getCountCategory();
     if ($categoryCount > 0) {
         $categoryAll = $categoryHandler->getAllCategory();
