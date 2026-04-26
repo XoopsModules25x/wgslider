@@ -132,12 +132,13 @@ require_once __DIR__ . '/common.php';
 \define('_AM_WGSLIDER_PERMS_GLOBAL_SUBMIT_DESC', 'Groups which should have permissions to <ul><li>create categories</li><li>edit all categories</li><li>upload images to all categories</li></ul>');
 \define('_AM_WGSLIDER_PERMS_GLOBAL_VIEW', 'Permissions to view all');
 \define('_AM_WGSLIDER_PERMS_GLOBAL_VIEW_DESC', 'Groups which should have permissions to view all categories');
+\define('_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT', 'Permissions to submit and edit own categories');
+\define('_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT_DESC', 'Groups which should have permissions to <ul><li>create categories</li><li>edit only own categories</li><li>upload images only to own categories</li></ul>');
 \define('_AM_WGSLIDER_PERMS_GLOBAL_DESC', '<ul>
                                                 <li>' . \_AM_WGSLIDER_PERMS_GLOBAL_SUBMIT . ': ' . \_AM_WGSLIDER_PERMS_GLOBAL_SUBMIT_DESC . '<br></li>
                                                 <li>' . \_AM_WGSLIDER_PERMS_GLOBAL_VIEW . ': ' . \_AM_WGSLIDER_PERMS_GLOBAL_VIEW_DESC . '<br></li>
+                                                <li>' . \_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT . ': ' . \_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT_DESC . '<br></li>
                                            </ul>');
-\define('_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT', 'Permissions to submit and edit own categories');
-\define('_AM_WGSLIDER_PERMS_CATEGORY_SUBMIT_DESC', 'Groups which should have permissions to <ul><li>create categories</li><li>edit only own categories</li><li>upload images only to own categories</li></ul>');
 \define('_AM_WGSLIDER_PERMS_CATEGORY_VIEW', 'Permissions to view this category');
 \define('_AM_WGSLIDER_PERMS_CATEGORY_VIEW_DESC', 'Groups which should have permissions to view this category');
 \define('_AM_WGSLIDER_PERMS_NOTSET', 'No permission set');
