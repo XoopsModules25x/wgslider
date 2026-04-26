@@ -4,6 +4,7 @@
 	<div class='errorMsg'><strong><{$error}></strong></div>
 <{/if}>
 
+<div class="spacer"><{$form_select|default:''}></div>
 <div class="spacer"><{$form|default:''}></div>
 
 <br>
